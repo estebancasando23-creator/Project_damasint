@@ -36,8 +36,8 @@ void Lanzardado(int& J1, int& J2, char *nom1, char* nom2){
     dado = (rand() % 6) + 1;
     std::cout<<"Lanzando dados...";
 
-    J1 = dado.Next(1, 7)
-    J2 = dado.Next(1, 7)
+    J1 = (rand() % 6) + 1;
+    J2 = (rand() % 6) + 1;
     if (J1>J2){
         std::cout<<"El turno es de jugador: "<< nom1<<std::endl;
     }else{
