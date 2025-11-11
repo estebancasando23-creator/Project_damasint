@@ -352,59 +352,389 @@ void PintarPosAnt(Jugador* J){
     
 
 }
+
+void Caracteristicas(Jugador* J, char c, int xpos, int ypos)
+{
+    J->simbolo=C;
+    J->X=xpos;
+    J->y=ypos;
+}
+void EvaluarPosTablero(Jugador* J, int x, int y, bool& salir)
+{
+    bool saltosSimple= false; saltoDoble= false, band= false;
+
+    if(Tablero[y][x] !='N' && Tablero[y][x] !='')
+    {
+        if(((J->x)+2==x||(J->x)-2==x)&&((J->y)+1==y||(J->y)-1==y)){saltoSimple=true;}
+        else if(((J->x)+4==x||(J->x)-4==x)&&((J->y)+2==y||(J->y)-2==y))saltoDoble=true;
+
+        if(saltoSimple==true && (Tablero[y][x] != 'A' && Tablero[y][x] !='B' && Tablero[y][x] != 'C' && Tablero[y][x] != 'D' && Tablero[y][x] !='E' && Tablero[y][x] != 'F'))
+
+        {
+            if(J->simbolo=='A' &&(J->y)>y)
+            {
+                J->x=x;
+                J->y=y;
+                band= true;
+
+            }
+            if(J->simbolo=='B'&&(J->y)<y)
+            {
+                J->x=x;
+                J->y=y;
+                band= true;
+
+            }
+            if(J->simbolo='C'&&(J->x)<x)
+            {
+                J->x=x;
+                J->y=y;
+                band=true;
+            }
+            if(J->simbolo=='E'&&(J->x)>x)
+            {
+                J->x=x;
+                J->y=y;
+                band=true;
+            }
+            if(J->simbolo=='F'&&(J->x)<x)
+            {
+                J->x=x;
+                J->y=y;
+                band= true;
+            }
+        }
+        if(saltoDoble==true&&(Tablero[y][x] != 'A' && Tablero[y][x] != 'B' && Tablero[y][x] !='C' && Tablero[y][x] !='D' && Tablero[y][x] !='E' && Tablero[y][x] != 'F'))
+        {
+            if(J->x > x && J->y >y y && (J->simbolo=='E' || J->simbolo=='A' || J->simbolo == 'D'))
+            {
+                if(Tablero[(J->y)-1][(J->x)-2] >= 'A' && Tablero[(J->y)-1][(J->x)-2] <= 'F')
+                {
+                    J->x = x;
+                    J->y = y;
+                    band = true;
+                }
+            }
+            else if(J->x < x && J->y >y && (J->simbolo == 'C' || J->simbolo == 'A' || J->simbolo == 'F'))
+            {
+                if(Tablero[(J->y)-1][(J->x)+2]>='A' && Tablero[(J->y)-1][(J->x)+2] <= 'F')
+
+                {
+                    J->x=x;
+                    J->y=y;
+                    band = true;
+                }
+            }
+             else if(J->x > x && J->y <y && (J->simbolo == 'B' || J->simbolo == 'D' || J->simbolo == 'E'))
+             {
+                if(Tablero[(J->y)+1][(J->x)-2] >= 'A' && Tablero[(J->y)+1][(J->x)-2]<='F')
+                {
+                    J->x=x;
+                    J->y=y;
+                    band = true;
+                }
+             }
+             else if (J->x < x && J->y < y && (J->simbolo == 'F' || J->simbolo == 'B' || J->simbolo == 'C'))
+             {
+                if(Tablero[(J->y)+1][(J->x)+2] >= 'A' && Tablero[(J->y)+1][(J->x)+2] <= 'F')
+                {
+                    J->x = x;
+                    J->y = y;
+                    band = true;
+                }
+             }
+        }
+    }
+
+    if(band == false){ Console::SetCursorPosition(2,31); std::cout<< "NO PUEDE REALIZAR ESTE MOVIMIENTO"; getch();}
+}
+void movimientosFichas(Jugador* J)
+{
+    int x,y;
+    bool salir;
+    Console::BackgroundColor=ConsoleColor::Gray;
+    Console::SetCursorPosition(J->x, J->y);std::cout<<J->simbolo;
+    Console::BackgroundColor= ConsoleColor::Black;
+
+
+    do
+    {
+        Console::SetCursorPosition(2,28); std::cout<<"                                            ";
+        Console::SetCursorPosition(2,28); std::cout<<"Ingrese la posicion X a la que desea moverse: ";
+        std::cin>>x;
+
+    } while(x<0||x>57);
+    
+    do
+    {
+      Console::SetCursorPosition(2,29);std::cout<<"                                  ";
+      Console::SetCursorPosition(2,29);std::cout<<"Ingrese la posicion Y a la que desea moverse: ";
+      std::cin>>y;
+    } while(y<0||y>23);
+
+    EvaluarPosTablero(J, x, y, salir)
+
+    Console::SetCursorPosition(2,25); std::cout<<"                                          ";
+    Console::SetCursorPosition(2,26); std::cout<<"                                          ";
+    Console::SetCursorPosition(2,27); std::cout<<"                                          ";
+    Console::SetCursorPosition(2,28); std::cout<<"                                          ";
+    Console::SetCursorPosition(2,29); std::cout<<"                                          ";
+    Console::SetCursorPosition(2,30); std::cout<<"                                          ";
+    Console::SetCursorPosition(2,31); std::cout<<"                                          ";
+    Console::SetCursorPosition(50,10); std::cout<<"                                          ";
+    Console::SetCursorPosition(50,11); std::cout<<"                                          ";
+
+
+
+    
+    
+}
+void PintarPosAct(Jugador* J)
+{
+    for(int i = 0; i < 19; i++)
+    {
+        for(int j = 0; j < 27; j++)
+        {
+            Tablero[J->y][J->X] = J->simbolo;
+        }
+        
+    }
+}
+void EscogerFicha(Jugador* J, char* nombre, char ficha, int T)
+{
+    int opc;
+    int posX, posY;
+    bool salir = false
+    char colum, fila;
+
+
+    do
+    {
+        Console::SetCursorPosition(2,25);
+        std::cout <<"                                                        ";
+        Console::SetCursorPosition(2,26);
+        std::cout <<"                                                        ";
+        Console::SetCursorPosition(2,27);
+        std::cout <<"                                                        ";
+        Console::SetCursorPosition(2,28);
+        std::cout <<"                                                        ";
+
+
+        Console::SetCursorPosition(2,25);
+        std::cout<<nombre<<"Ingresa la COLUMNA [A-Y] de la ficha que quieres mover: ";
+        std::cin>> colum;
+
+        switch(toupper(colum))
+        {
+            case 'A': posX= 6; break;
+            case 'B': posX= 8; break;
+            case 'C': posX= 10; break;
+            case 'D': posX= 12; break;
+            case 'E': posX= 14; break;
+            case 'F': posX= 16; break;
+            case 'G': posX= 18; break;
+            case 'H': posX= 20; break;
+            case 'I': posX= 22; break;
+            case 'J': posX= 24; break;
+            case 'K': posX= 26; break;
+            case 'L': posX= 28; break;
+            case 'M': posX= 30; break;
+            case 'N': posX= 32; break;
+            case 'O': posX= 34; break;
+            case 'P': posX= 36; break;
+            case 'Q': posX= 38; break;
+            case 'R': posX= 40; break;
+            case 'S': posX= 42; break;
+            case 'T': posX= 44; break;
+            case 'U': posX= 46; break;
+            case 'V': posX= 48; break;
+            case 'W': posX= 50; break;
+            case 'X': posX= 52; break;
+            case 'Y': posX= 54; break;
+
+        }
+
+
+        Console::SetCursorPosition(2,26);
+        std::cout<<nombre<<"Ingresa la FILA[A-Q] de la ficha que quieres mover: ";
+        std::cin>>fila;
+
+        switch(toupper(fila))
+        {
+             case 'A': posY= 5; break;
+            case 'B': posY= 6; break;
+            case 'C': posY= 7; break;
+            case 'D': posY= 8; break;
+            case 'E': posY= 9; break;
+            case 'F': posY= 10; break;
+            case 'G': posY= 11; break;
+            case 'H': posY= 12; break;
+            case 'I': posY= 13; break;
+            case 'J': posY= 14; break;
+            case 'K': posY= 15; break;
+            case 'L': posY= 16; break;
+            case 'M': posY= 17; break;
+            case 'N': posY= 18; break;
+            case 'O': posY= 19; break;
+            case 'P': posY= 20; break;
+            case 'Q': posY= 21; break;
+        }
+
+        if(Tablero[posY][posX]==ficha)salir=true;
+        if(salir != true)
+        {
+            Console::SetCursorPosition(3,28);std::cout<<"No puede mover esta ficha";
+            getch();
+        }
+
+    }while(salir != true);
+
+    if(T==1)
+    {
+        Console::SetCursorPosition(96,14); std::cout<<posY;
+        Console::SetCursorPosition(96,12); std::cout<<posX;
+    
+    }
+
+    else
+    {
+        Console::SetCursorPosition(115,14); std::cout<<posY;
+        Console::SetCursorPosition(115,12); std::out<<posX;
+
+    }
+
+
+    Caracteristicas(J, ficha, posX, posY);
+    PintarPosAnt(J);
+    movimientoFichas(J);
+    PintarPosAct(J);
+
+    if(T==1)
+    {
+        Console::SetCursorPosition(96,14); std::cout<<"  ";
+        Console::SetCursorPosition(96,12); std::cout<<"  ";
+        
+    }
+    else
+    {
+        Console::SetCursorPosition(115,14); std::cout<<"   ";
+        Console::SetCursorPosition(115,12); std::cout<<"   ";
+        
+
+    }
+    
+}
+bool Ganador(Jugador* J)
+{
+    for (int i = 0; i < 19; i++)
+    {
+        for (int j = 0; j < 27; j++)
+        {
+            if(J->simbolo == 'A' || J->simbolo == 'B')
+            {
+                if(Tablero[8][24] == 'A' && Tablero[8][28] == 'A' && Tablero[8][32] == 'A' && Tablero[8][36] == 'A' && 
+                    Tablero[7][26] == 'A' && Tablero[7][30] == 'A' && Tablero[7][34] == 'A' && Tablero[6][28] == 'A' &&
+                Tablero[6][32] == 'A' && Tablero[5][30] == 'A') return true;
+
+
+                else if((Tablero[18][24] == 'B' && Tablero[18][28] == 'B' && Tablero[18][32] == 'B' && Tablero[18][36] == 'B' && 
+                    Tablero[19][26] == 'B' && Tablero[19][30] == 'B' && Tablero[19][34] == 'B' && Tablero[20][28] == 'B' &&
+                Tablero[20][32] == 'B' && Tablero[21][30] == 'B') return true;
+)
+            }
+            else if(J->simbolo == 'C' || J->simbolo == 'D')
+            {
+                if(Tablero[17][6] == 'D' && Tablero[17][10] == 'D' && Tablero[17][14] == 'D' && Tablero[17][18] == 'D' && 
+                    Tablero[16][8] == 'D' && Tablero[16][12] == 'D' && Tablero[16][16] == 'D' && Tablero[15][10] == 'D' &&
+                Tablero[15][14] == 'D' && Tablero[14][12] == 'D') return true;
+
+                else if(Tablero[9][42] == 'C' && Tablero[9][46] == 'C' && Tablero[9][50] == 'C' && Tablero[9][54] == 'C' && 
+                    Tablero[10][44] == 'C' && Tablero[10][48] == 'C' && Tablero[10][52] == 'C' && Tablero[11][46] == 'C' &&
+                Tablero[11][50] == 'C' && Tablero[12][48] == 'C') return true;
+
+
+            }
+            else if(J->simbolo == 'E' || J->simbolo == 'F')
+            {
+                 if(Tablero[17][42] == 'F' && Tablero[17][46] == 'F' && Tablero[17][50] == 'F' && Tablero[17][54] == 'F' && 
+                    Tablero[16][44] == 'F' && Tablero[16][48] == 'F' && Tablero[16][52] == 'F' && Tablero[15][46] == 'F' &&
+                Tablero[15][50] == 'F' && Tablero[14][48] == 'F') return true;
+
+                else if(Tablero[9][6] == 'E' && Tablero[9][10] == 'E' && Tablero[9][14] == 'E' && Tablero[9][18] == 'E' && 
+                    Tablero[10][8] == 'E' && Tablero[10][12] == 'E' && Tablero[10][16] == 'E' && Tablero[11][10] == 'E' &&
+                Tablero[11][14] == 'E' && Tablero[12][12] == 'E') return true;
+
+            }
+            
+        }
+        
+    }
+    
+}
+
+
 int main(){
     char fichaJ1;
     char fichaJ2;
     int Turno;
     char* nombreJ1 = new char[20];
     char* nombreJ2 = new char[20];
-
     int puntajeJ1, puntajeJ2;
-    int movimientosJ1 = 0, movimientosJ2 = 0;
-    
-    Ingresarnombres(nombreJ1, nombreJ2);
-    Lanzardado(puntajeJ1, puntajeJ2, nombreJ1, nombreJ2);
+    int movimientoJ1 = 0; movimientosJ2 = 0;
+
+    IngresarNombres(nombreJ1, nombreJ2);
+    LanzarDado(puntajeJ1, puntajeJ2, nombreJ1, nombreJ2);
     ElegirFicha(fichaJ1, fichaJ2, nombreJ1, nombreJ2, puntajeJ1, puntajeJ2, Turno);
-    Elegirposicionestablero(fichaJ1); 
+    ElegirPosicionesTablero(fichaJ1);
 
     Console::Clear();
-    Console::CursorVisible = false;
+    Console::CursorVisible = false; 
 
     Jugador* JP1 = new Jugador;
-    Jugador* JP2 = new Jugador;
+    Jugador* JP2=  new Jugador;
 
     while (true)
-    {
-        Console::CursorVisible = false;
+    { 
+        Console::CursorVisible= false;
 
         muestraTablero();
-        muestraFilasYcolumnas();
-        TableroDatosDelJugador();
+        muestrFilasYcolumnas();
+        TablerosDatosDelJugador();
 
-        Console::SetCursorPosition(91, 10);
-        std::cout <<nombreJ1 <<"[" <<fichaJ1 <<"]"; 
-        Console::SetCursorPosition(109, 10);
-        std::cout <<nombreJ2 <<"[" <<fichaJ2 <<"]"; 
-        Console::SetCursorPosition(97, 17);
-        std::cout <<movimientosJ1;
-        Console::SetCursorPosition(115, 17);
-        std::cout <<movimientosJ2;
+        Console::SetCursorPosition(91,10);
+        std::cout<<nombreJ1<<"["<<fichaJ1<<"]";
+        Console::SetCursorPosition(109,10);
+        std::cout<<nombreJ2<<"["<<fichaJ2<<"]";
+        Console::SetCursorPosition(97,17); std::cout<<movimientosJ1;
+        Console::SetCursorPosition(115,17); std::cout<<movimientosJ2;
 
-        if (Ganador(JP1) == true)break;
+        if(Ganador(JP1)== true)break;
 
-        if (Turno == 1)
+        if (Turno==1)
         {
             EscogerFicha(JP1, nombreJ1, fichaJ1, Turno);
             movimientosJ1++;
             Turno = 2;
-        }else{
+
+        }
+        else
+        {
             EscogerFicha(JP2, nombreJ2, fichaJ2, Turno);
             movimientosJ2++;
             Turno = 1;
         }
         
-        
 
-    }
-    
+
+
+
 }
+Console::Clear();
+if(Turno == 1)std::cout << "El ganador es: " << nombreJ2 <<std::endl;
+else std::cout<<"El ganadorves: " << nombreJ1 << std::endl;
+
+getch();
+return 0;
+}
+
+
