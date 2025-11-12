@@ -1,5 +1,9 @@
+#include "interfaz.h"
+
+class Juego;
+
 int main() {
-    Juego partida;
-    partida.menu();
+    Juego juego;
+    juego.menuPrincipal();
     return 0;
 }
