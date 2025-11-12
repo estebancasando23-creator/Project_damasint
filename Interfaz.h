@@ -1,53 +1,59 @@
-#ifndef INTERFAZ_H
+interfaz: #ifndef INTERFAZ_H
 #define INTERFAZ_H
 
 #include <iostream>
 #include <string>
+#include <cstdlib>
+#include <ctime>
+#include <cctype>
+#include <conio.h>
+#include <windows.h>
+#include <algorithm>
 #include <limits>
+#include <vector>
 
-class Interfaz {
-public:
-    static void mostrarTitulo() {
-        std::cout << "\n=====================================\n";
-        std::cout << "       DAMAS INTERNACIONALES\n";
-        std::cout << "=====================================\n";
-    }
+// ---------- Config / Globals ----------
+extern HANDLE hConsole;
 
-    static void mostrarMenu() {
-        mostrarTitulo();
-        std::cout << "1. Jugar\n";
-        std::cout << "2. Reglas\n";
-        std::cout << "0. Salir\n";
-        std::cout << "Opcion: ";
-    }
+// tablero original 23x57
+extern char Tablero[23][57];
+extern bool Crown[23][57];
 
-    static void mostrarReglas() {
-        std::cout << "\n=== Reglas de Damas Internacionales ===\n";
-        std::cout << "- El tablero tiene 10x10 casillas.\n";
-        std::cout << "- Cada jugador inicia con 20 fichas.\n";
-        std::cout << "- Solo se mueven por casillas negras.\n";
-        std::cout << "- Para capturar, se salta sobre una pieza rival.\n";
-        std::cout << "- Al llegar al extremo opuesto, una ficha se corona como Dama.\n";
-        std::cout << "=======================================\n";
-    }
+// símbolos globales
+extern char jugador1Symbol;
+extern char jugador2Symbol;
 
-    static void mostrarGanador(const std::string& nombre) {
-        std::cout << "\n=====================================\n";
-        std::cout << "          ¡Felicidades!\n";
-        std::cout << "   Ganador: " << nombre << "\n";
-        std::cout << "=====================================\n";
-    }
-
-    static void mostrarEmpate() {
-        std::cout << "\n=====================================\n";
-        std::cout << "             ¡Empate!\n";
-        std::cout << "=====================================\n";
-    }
-
-    static void pausar() {
-        std::cout << "\nPresiona ENTER para continuar...";
-        std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
-    }
+// ---------- Tipos ----------
+struct Jugador {
+    char simbolo;
+    int x;
+    int y;
 };
+
+// ---------- Prototipos ----------
+void SetCursorPositionSimple(int x, int y);
+void SetColorSimple(WORD color);
+void waitKey();
+
+int colLetterToX(char c);
+int rowLetterToY(char r);
+bool inBounds(int x, int y);
+bool isPieceChar(char ch);
+bool isOpponentChar(char ch, char mySym);
+
+void Ingresarnombres(std::string& nom1, std::string& nom2);
+void Lanzardado(int& J1, int& J2, const std::string& nom1, const std::string& nom2);
+void ElegirFicha(char& F1, char& F2, const std::string& nom1, const std::string& nom2, int pJ1, int pJ2, int& T);
+void Elegirposicionestablero(char F);
+void muestraTablero();
+void muestraFilasYcolumnas();
+void TableroDatosDelJugador();
+
+void PintarPosAnt(Jugador* J);
+void Caracteristicas(Jugador* J, char c, int xpos, int ypos);
+int EvaluarPosTableroSimple(Jugador* J, int x, int y, int &midX, int &midY);
+bool canCaptureFrom(Jugador* J);
+void applyMoveToBoard(Jugador* J, int dstX, int dstY, int midX=-1, int midY=-1);
+void movimientosFichas(Jugador* J);
 
 #endif
