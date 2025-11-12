@@ -22,7 +22,7 @@ public:
         std::cout << "Ingrese nombre del jugador 2: ";
         std::cin >> jugador2;
 
-        // Simulación simple de puntajes aleatorios
+    
         puntaje1 = std::rand() % 10;
         puntaje2 = std::rand() % 10;
 
