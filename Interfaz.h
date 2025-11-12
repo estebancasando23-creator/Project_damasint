@@ -3,7 +3,7 @@
 
 #include <iostream>
 #include <string>
-#include <vector>
+#include <limits>
 
 class Interfaz {
 public:
@@ -33,4 +33,21 @@ public:
 
     static void mostrarGanador(const std::string& nombre) {
         std::cout << "\n=====================================\n";
-        std::cout << "          ¡Felicidades!\
+        std::cout << "          ¡Felicidades!\n";
+        std::cout << "   Ganador: " << nombre << "\n";
+        std::cout << "=====================================\n";
+    }
+
+    static void mostrarEmpate() {
+        std::cout << "\n=====================================\n";
+        std::cout << "             ¡Empate!\n";
+        std::cout << "=====================================\n";
+    }
+
+    static void pausar() {
+        std::cout << "\nPresiona ENTER para continuar...";
+        std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
+    }
+};
+
+#endif
