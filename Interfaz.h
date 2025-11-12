@@ -1,30 +1,36 @@
 #ifndef INTERFAZ_H
 #define INTERFAZ_H
 
+#include <iostream>
 #include <string>
+#include <vector>
 
-struct Jugador {
-    char simbolo;
-    int x;
-    int y;
-};
+class Interfaz {
+public:
+    static void mostrarTitulo() {
+        std::cout << "\n=====================================\n";
+        std::cout << "       DAMAS INTERNACIONALES\n";
+        std::cout << "=====================================\n";
+    }
 
-extern char Tablero[23][57];
+    static void mostrarMenu() {
+        mostrarTitulo();
+        std::cout << "1. Jugar\n";
+        std::cout << "2. Reglas\n";
+        std::cout << "0. Salir\n";
+        std::cout << "Opcion: ";
+    }
 
-void Ingresarnombres(std::string& nom1, std::string& nom2);
-void Lanzardado(int& J1, int& J2, const std::string& nom1, const std::string& nom2);
-void ElegirFicha(char& F1, char& F2, const std::string& nom1, const std::string& nom2, int pJ1, int pJ2, int& T);
-void Elegirposicionestablero(char F);
-void muestraTablero();
-void muestraFilasYcolumnas();
-void TableroDatosDelJugador();
+    static void mostrarReglas() {
+        std::cout << "\n=== Reglas de Damas Internacionales ===\n";
+        std::cout << "- El tablero tiene 10x10 casillas.\n";
+        std::cout << "- Cada jugador inicia con 20 fichas.\n";
+        std::cout << "- Solo se mueven por casillas negras.\n";
+        std::cout << "- Para capturar, se salta sobre una pieza rival.\n";
+        std::cout << "- Al llegar al extremo opuesto, una ficha se corona como Dama.\n";
+        std::cout << "=======================================\n";
+    }
 
-void PintarPosAnt(Jugador* J);
-void PintarPosAct(Jugador* J);
-void Caracteristicas(Jugador* J, char c, int xpos, int ypos);
-void EvaluarPosTablero(Jugador* J, int x, int y, bool& salir);
-void movimientosFichas(Jugador* J);
-void EscogerFicha(Jugador* J, const std::string& nombre, char ficha, int T);
-bool Ganador(Jugador* J);
-
-#endif // INTERFAZ_H
+    static void mostrarGanador(const std::string& nombre) {
+        std::cout << "\n=====================================\n";
+        std::cout << "          ¡Felicidades!\
