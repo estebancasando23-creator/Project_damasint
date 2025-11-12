@@ -1,5 +1,4 @@
 int main() {
-int main() {
     std::srand((unsigned)std::time(nullptr));
 
     int opcion = 0;
